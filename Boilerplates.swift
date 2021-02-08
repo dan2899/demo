@@ -49,13 +49,7 @@ class Boilerplates: UITableViewController, NewTemplateDelegate {
         buildResponseButton = UIBarButtonItem(title: "Build", style: .done, target: self, action: #selector(segueToResponse))
         
         // Check the collapsed property
-        if splitView.isCollapsed {
-            // Show 'build response' button
-            self.navigationItem.rightBarButtonItem = buildResponseButton
-        } else {
-            // Hide 'build response' button
-            self.navigationItem.rightBarButtonItem = nil
-        }
+        self.navigationItem.rightBarButtonItem = (splitView.isCollapsed) ? buildResponseButton : nil
         
         var response = ""
         for section in templates where section.selectedTemplateIndex != nil {
@@ -287,11 +281,9 @@ extension Boilerplates {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HeaderView()
         header.title.text = templates[section].title?.localizedUppercase
-        if tableView.isEditing {
-            header.buttonBar.alpha = 1.0
-        } else {
-            header.buttonBar.alpha = 0.0
-        }
+        
+        header.buttonBar.alpha = (tableView.isEditing) ? 1.0 : 0.0
+        
         header.buttonBar.tag = section
         header.newTemplateDelegate = self
         return header
